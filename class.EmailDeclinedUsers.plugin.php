@@ -7,7 +7,7 @@ $PluginInfo['EmailDeclinedUsers'] = array(
    'RequiredApplications' => array('Vanilla' => '2.1'),
    'RequiredTheme' => FALSE, 
    'RequiredPlugins' => FALSE,
-   'HasLocale' => TRUE,
+   'HasLocale' => FALSE,
    'SettingsUrl' => '/settings/emaildeclinedusers',
    'SettingsPermission' => 'Garden.Settings.Manage',
    'Author' => "Krazdord",
