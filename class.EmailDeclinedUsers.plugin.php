@@ -3,7 +3,7 @@
 // Define the plugin:
 $PluginInfo['EmailDeclinedUsers'] = array(
    'Description' => 'Sends an email to declined applicants.',
-   'Version' => '1.0',
+   'Version' => '1.1',
    'RequiredApplications' => array('Vanilla' => '2.1'),
    'RequiredTheme' => FALSE, 
    'RequiredPlugins' => FALSE,
