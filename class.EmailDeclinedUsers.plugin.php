@@ -8,8 +8,8 @@ $PluginInfo['EmailDeclinedUsers'] = array(
    'RequiredTheme' => FALSE, 
    'RequiredPlugins' => FALSE,
    'HasLocale' => TRUE,
-   'SettingsUrl' => '/plugin/EmailDeclinedUsers',
-   'SettingsPermission' => 'Garden.AdminUser.Only',
+   'SettingsUrl' => '/settings/emaildeclinedusers',
+   'SettingsPermission' => 'Garden.Settings.Manage',
    'Author' => "Krazdord",
    'AuthorEmail' => 'krazdord@gmail.com',
    'License' => 'MIT'
@@ -40,8 +40,8 @@ class EmailDeclinedUsersPlugin extends Gdn_Plugin {
          $User = $UserModel->GetID($UserID);
          if ($User) {
 		  $Email = new Gdn_Email();
-                                $Email->Subject(sprintf(T('[%1$s] Membership Declined'), C('Garden.Title')));
-                                $Email->Message(sprintf(T('EmailMembershipDeclined'), $User->Name));
+                                $Email->Subject(sprintf(C('EmailDeclinedUsers.Subject'), C('Garden.Title')));
+                                $Email->Message(sprintf(C('EmailDeclinedUsers.Body'), C('Garden.Title'), $User->Name));
                                 $Email->To($User->Email);                                
                                 $Email->Send();
 
@@ -50,5 +50,31 @@ class EmailDeclinedUsersPlugin extends Gdn_Plugin {
 
        }
    }
+    public function settingsController_emailDeclinedUsers_create ($sender) {
+        $sender->permission('Garden.Settings.Manage');
+        $sender->setData('Title', t('EmailDeclinedUsers Settings'));
+        $sender->addSideMenu('dashboard/settings/plugins');
+        $configurationModel = new ConfigurationModule($sender);
+
+        $mailSubject = t('[%1$s] Membership Declined');
+        $mailBody = t('Hello %2$s'."\r\n\r\nWe are sorry to inform you that you were declined for ".'%1$s'." membership. Please review your application and resubmit it with more information.\r\n\r\nThanks!");
+        $configurationModel->Initialize(array(
+            'EmailDeclinedUsers.Subject' => array(
+                'LabelCode' => 'Subject',
+                'Control' => 'TextBox',
+                'Options' => array('Class' => 'InputBox WideInput'),
+                'Default' => $mailSubject,
+                'Description' => 'This is the subject of the mail a declined user will get.<br>"%1$s" is the name of your forum.'
+            ),
+            'EmailDeclinedUsers.Body' => array(
+                'LabelCode' => 'Body',
+                'Control' => 'TextBox',
+                'Options' => array('Multiline' => true),
+                'Default' => $mailBody,
+                'Description' => 'This is the body of the mail a declined user will get.<br>"%1$s" is the name of your forum and "%2$s" is the name of the user.'
+            )
+        ));
+        $configurationModel->renderAll();
+    }
    
 }
