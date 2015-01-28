@@ -11,7 +11,8 @@ $PluginInfo['EmailDeclinedUsers'] = array(
    'SettingsUrl' => '/plugin/EmailDeclinedUsers',
    'SettingsPermission' => 'Garden.AdminUser.Only',
    'Author' => "Krazdord",
-   'AuthorEmail' => 'krazdord@gmail.com'
+   'AuthorEmail' => 'krazdord@gmail.com',
+   'License' => 'MIT'
 );
 
 class EmailDeclinedUsersPlugin extends Gdn_Plugin {
